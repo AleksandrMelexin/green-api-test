@@ -27,6 +27,6 @@
 
 Веб-приложение будет доступно по адресу: http://localhost
 
-Проект на [versel](http://localhost)
+Проект на [versel](https://green-api-test-blond.vercel.app/)
 
 Проект будет запущен на порту 80
