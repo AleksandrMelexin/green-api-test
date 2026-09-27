@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { App, Avatar, Button, Empty, Input, Tooltip, Typography } from "antd";
-import { LogoutOutlined, PlusOutlined, SendOutlined, UserOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, LogoutOutlined, PlusOutlined, SendOutlined, UserOutlined } from "@ant-design/icons";
 import { useAuth } from "@/entities/session/model";
 import { useChats } from "@/entities/chat/model";
 import { sendMessage } from "@/shared/api/green-api";
-import { useNotifications } from "@/shared/api/use-notifications";
+import { useNotifications } from "@/shared/lib/use-notifications";
 import styles from "./main-page.module.css";
+import { loadContact } from "@/shared/lib/load-contact";
 
 const normalizePhone = (raw: string) => {
   let d = raw.replace(/\D/g, "");
@@ -23,8 +24,9 @@ const MainPage = () => {
 
   const creds = useAuth((s) => s.creds);
   const logout = useAuth((s) => s.logout);
-  const { chats, active, openChat, addMessage, reset } = useChats();
+  const { chats, contacts, active, openChat, closeChat, addMessage } = useChats();
   const { message } = App.useApp();
+  const displayName = (p: string) => contacts[p]?.name || formatPhone(p);
 
   const [phone, setPhone] = useState("");
   const [text, setText] = useState("");
@@ -52,6 +54,7 @@ const MainPage = () => {
       return;
     }
     openChat(p);
+    if (creds) void loadContact(creds, p);
     setPhone("");
   };
 
@@ -72,12 +75,11 @@ const MainPage = () => {
   };
 
   const handleLogout = () => {
-    reset();
     logout();
   };
 
   return (
-    <main className={styles.layout}>
+    <main className={`${styles.layout} ${active ? styles.chatOpen : ""}`}>
       <aside className={styles.sidebar}>
         <header className={styles.sidebarHeader}>
           <Typography.Title level={4} className={styles.sidebarTitle}>
@@ -106,10 +108,10 @@ const MainPage = () => {
               className={`${styles.chatItem} ${p === active ? styles.chatItemActive : ""}`}
               onClick={() => openChat(p)}
             >
-              <Avatar size={44} icon={<UserOutlined />} />
+              <Avatar size={44} src={contacts[p]?.avatar || undefined} icon={<UserOutlined />} />
               <div className={styles.chatInfo}>
                 <div className={styles.chatRow}>
-                  <span className={styles.chatName}>{formatPhone(p)}</span>
+                  <span className={styles.chatName}>{displayName(p)}</span>
                   {last && <span className={styles.chatTime}>{formatTime(last.ts)}</span>}
                 </div>
                 <span className={styles.chatPreview}>
@@ -125,8 +127,18 @@ const MainPage = () => {
         {active ? (
           <>
             <header className={styles.chatHeader}>
-              <Avatar size={40} icon={<UserOutlined />} />
-              <span className={styles.chatName}>{formatPhone(active)}</span>
+              <Button
+                type="text"
+                icon={<ArrowLeftOutlined />}
+                onClick={closeChat}
+                className={styles.backButton}
+                aria-label="Назад к списку чатов"
+              />
+              <Avatar size={40} src={contacts[active]?.avatar || undefined} icon={<UserOutlined />} />
+              <div className={styles.chatInfo}>
+                <span className={styles.chatName}>{displayName(active)}</span>
+                {contacts[active]?.name && <span className={styles.chatPreview}>{formatPhone(active)}</span>}
+              </div>
             </header>
 
             <div className={styles.messages}>

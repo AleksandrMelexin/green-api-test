@@ -15,12 +15,12 @@
 
 .title {
   text-align: center;
-  margin-bottom: 4px !important;
+  margin-bottom: 4px;
 }
 
 .subtitle {
   text-align: center;
-  margin-bottom: 24px !important;
+  margin-bottom: 24px;
 }
 
 .alert {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Alert, App, Button, Card, Form, Input, Typography } from "antd";
 import { useAuth } from "@/entities/session/model";
+import { useChats } from "@/entities/chat/model";
 import { getStateInstance, type Creds } from "@/shared/api/green-api";
 import styles from "./auth-page.module.css";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +37,7 @@ const AuthPage = () => {
           message.warning("Аккаунт ограничен: отправка возможна только номерам из контактов");
         }
         login(creds);
+        useChats.getState().ensureOwner(creds.idInstance);
         navigate("/chats", { replace: true });
         return;
       }

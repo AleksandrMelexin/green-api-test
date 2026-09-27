@@ -1,7 +1,7 @@
 .layout {
   display: grid;
   grid-template-columns: 340px 1fr;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -45,7 +45,6 @@
   padding: 10px 8px;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.15s;
 }
 
 .chatItem:hover {
@@ -167,4 +166,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.backButton {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .layout .chat {
+    display: none;
+  }
+
+  .chatOpen .sidebar {
+    display: none;
+  }
+
+  .chatOpen .chat {
+    display: flex;
+  }
+
+  .backButton {
+    display: inline-flex !important;
+    margin-left: -8px;
+  }
+
+  .chatHeader {
+    padding: 8px 12px;
+  }
+
+  .messages {
+    padding: 12px;
+  }
+
+  .bubble {
+    max-width: 85%;
+  }
+
+  .composer {
+    margin: 0 8px 8px;
+  }
 }

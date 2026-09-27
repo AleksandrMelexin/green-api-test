@@ -43,3 +43,18 @@ export const deleteNotification = (c: Creds, receiptId: number, signal?: AbortSi
     method: 'DELETE',
     signal,
   })
+
+export type ContactInfo = {
+  avatar: string
+  name: string
+  contactName: string
+  chatId: string
+  phoneNumber: number
+}
+
+export const getContactInfo = (c: Creds, phone: string) =>
+  request<ContactInfo>(url(c, 'getContactInfo'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chatId: `${phone}@c.us` }),
+  })

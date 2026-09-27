@@ -5,11 +5,13 @@ import {
   receiveNotification,
   deleteNotification,
   type Notification,
+  type Creds,
 } from '@/shared/api/green-api'
+import { loadContact } from '@/shared/lib/load-contact'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-function handle({ body }: Notification) {
+function handle({ body }: Notification, creds: Creds) {
   if (body.typeWebhook !== 'incomingMessageReceived') return
   const d = body.messageData
   const text = d?.textMessageData?.textMessage ?? d?.extendedTextMessageData?.text
@@ -22,6 +24,8 @@ function handle({ body }: Notification) {
     out: false,
     ts: body.timestamp * 1000,
   })
+
+  void loadContact(creds, String(phone))
 }
 
 export function useNotifications() {
@@ -36,7 +40,7 @@ export function useNotifications() {
         try {
           const n = await receiveNotification(creds, ctrl.signal)
           if (!n) continue
-          handle(n)
+          handle(n, creds)
           await deleteNotification(creds, n.receiptId, ctrl.signal)
         } catch {
           if (ctrl.signal.aborted) return
