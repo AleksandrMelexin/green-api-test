@@ -1,75 +1,32 @@
-# React + TypeScript + Vite
+# Green API MAX
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Приложение для отправки и полчения сообщений через MAX
 
-Currently, two official plugins are available:
+## Стэк технологий
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React + Typescript** 
+- **Cборщик проекта: Vite**
+- **UI-библиотека: Ant Design**
+- **State-менеджер: Zustand**
+- **Архитектура проекта: FSD**
 
-## React Compiler
+## Инструкция по запуску
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Перейдите в корневую директорию проекта:
+	```bash
+	cd green-api-test
+	```
+2. Соберите проект: 
+	```bash
+	docker-compose build
+	``` 
+3. Запустите проект:
+	```bash
+	docker-compose up -d
+	```
 
-## Expanding the ESLint configuration
+Веб-приложение будет доступно по адресу: http://localhost
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Проект на [versel](http://localhost)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+Проект будет запущен на порту 80
