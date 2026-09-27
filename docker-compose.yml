@@ -1,0 +1,8 @@
+services:
+  client:
+    container_name: client
+    build:
+      context: ./
+      dockerfile: dockerfile
+    ports:
+      - "80:80"
