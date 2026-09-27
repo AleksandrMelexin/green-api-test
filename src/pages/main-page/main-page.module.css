@@ -158,7 +158,7 @@
 
 .textarea {
   flex: 1;
-  padding: 4px 0 !important;
+  padding: 4px 8px !important;
 }
 
 .placeholder {
