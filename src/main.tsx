@@ -1,3 +1,3 @@
-import { start } from "@app/app-entry";
+import { start } from "@/app/app-entry";
 
 start();
